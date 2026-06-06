@@ -15,16 +15,13 @@ import { Plus, CheckCircle, AlertTriangle, ReceiptText, CircleDollarSign } from 
 import { motion, AnimatePresence } from 'motion/react';
 
 const STORAGE_KEY = 'simple-budget-data';
-const THEME_KEY = 'simple-budget-theme';
 
 export default function App() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [isDark, setIsDark] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState<TransactionType>('income');
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
 
-  // 1. Load data from localStorage
   useEffect(() => {
     const storedData = localStorage.getItem(STORAGE_KEY);
     if (storedData) {
@@ -34,27 +31,8 @@ export default function App() {
         setTransactions([]);
       }
     }
-
-    // Load theme
-    const storedTheme = localStorage.getItem(THEME_KEY);
-    if (storedTheme) {
-      setIsDark(storedTheme === 'dark');
-    } else {
-      setIsDark(true); // Default to Dark mode as in simple budget screenshot
-    }
+    document.documentElement.classList.add('dark');
   }, []);
-
-  // 2. Synchronize theme with class injection
-  useEffect(() => {
-    const root = window.document.documentElement;
-    if (isDark) {
-      root.classList.add('dark');
-      localStorage.setItem(THEME_KEY, 'dark');
-    } else {
-      root.classList.remove('dark');
-      localStorage.setItem(THEME_KEY, 'light');
-    }
-  }, [isDark]);
 
   // Helper to calculate standard monthly equivalents for different income frequencies
   const getMonthlyEquivalent = (amount: number, frequency: string | null) => {
@@ -105,6 +83,11 @@ export default function App() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
   };
 
+  const handleClearData = () => {
+    setTransactions([]);
+    localStorage.removeItem(STORAGE_KEY);
+  };
+
   const handleSaveTransaction = (
     fields: Omit<Transaction, 'id'> & { id?: number }
   ) => {
@@ -127,9 +110,9 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-[#09090b] text-zinc-900 dark:text-[#fafafa] transition-colors duration-300 font-sans antialiased">
+    <div className="min-h-screen bg-[#09090b] text-[#fafafa] font-sans antialiased">
       {/* Structural AppBar */}
-      <Header isDark={isDark} onToggleTheme={() => setIsDark(!isDark)} />
+      <Header onClearData={handleClearData} />
 
       {/* Main Container */}
       <main className="max-w-[1240px] mx-auto px-4 md:px-10 py-8">
