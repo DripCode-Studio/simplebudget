@@ -133,46 +133,51 @@ export default function App() {
 
       {/* Main Container */}
       <main className="max-w-[1240px] mx-auto px-4 md:px-10 py-8">
-        <AnimatePresence mode="wait">
-          {/* Status feedback Banner */}
-          {netBalance >= 0 ? (
-            <motion.div
-              key="positive-cash"
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="mb-8 p-4 rounded-2xl flex items-center gap-3 bg-emerald-500/10 dark:bg-emerald-500/5 text-emerald-600 dark:text-[#4edea3] border border-emerald-500/20 shadow-sm"
-            >
-              <CheckCircle className="h-5 w-5 shrink-0 text-emerald-500" />
-              <div className="flex flex-col">
-                <span className="font-sans font-bold text-sm">Positive Cash Flow</span>
-                <span className="font-geist text-[11px] opacity-75 mt-0.5 font-medium uppercase tracking-wider dark:text-[#a1a1aa]">
-                  Great job! Your budget is robust and your monthly savings rate is healthy.
-                </span>
-              </div>
-            </motion.div>
-          ) : (
-            <motion.div
-              key="negative-cash"
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="mb-8 p-4 rounded-2xl flex items-center gap-3 bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 shadow-sm"
-            >
-              <AlertTriangle className="h-5 w-5 shrink-0 text-rose-500" />
-              <div className="flex flex-col">
-                <span className="font-sans font-bold text-sm">Budget Deficit</span>
-                <span className="font-geist text-[11px] opacity-75 mt-0.5 font-medium uppercase tracking-wider dark:text-[#a1a1aa]">
-                  Warning: Your active expenses exceed your standard monthly intake by{' '}
-                  {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
-                    Math.abs(netBalance)
-                  )}
-                  .
-                </span>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {transactions.length > 0 && (
+          <AnimatePresence mode="wait">
+            {netBalance >= 0 ? (
+              <motion.div
+                key="positive-cash"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="mb-8 p-4 rounded-2xl flex items-center gap-3 bg-emerald-500/10 dark:bg-emerald-500/5 text-emerald-600 dark:text-[#4edea3] border border-emerald-500/20 shadow-sm"
+              >
+                <CheckCircle className="h-5 w-5 shrink-0 text-emerald-500" />
+                <div className="flex flex-col">
+                  <span className="font-sans font-bold text-sm">Positive Cash Flow</span>
+                  <span className="font-geist text-[11px] opacity-75 mt-0.5 font-medium uppercase tracking-wider dark:text-[#a1a1aa]">
+                    You&apos;re saving{' '}
+                    {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
+                      netBalance
+                    )}{' '}
+                    per month ({savingsRate.toFixed(0)}% savings rate).
+                  </span>
+                </div>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="negative-cash"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="mb-8 p-4 rounded-2xl flex items-center gap-3 bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 shadow-sm"
+              >
+                <AlertTriangle className="h-5 w-5 shrink-0 text-rose-500" />
+                <div className="flex flex-col">
+                  <span className="font-sans font-bold text-sm">Budget Deficit</span>
+                  <span className="font-geist text-[11px] opacity-75 mt-0.5 font-medium uppercase tracking-wider dark:text-[#a1a1aa]">
+                    Your expenses exceed income by{' '}
+                    {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
+                      Math.abs(netBalance)
+                    )}{' '}
+                    per month.
+                  </span>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        )}
 
         {/* Dashboard 12-Column Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
