@@ -1,8 +1,12 @@
 {
-  "name": "react-example",
+  "name": "simplebudget",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Plan your money visually. A modern budgeting tool for tracking income, expenses, and savings with real-time charts.",
   "type": "module",
+  "author": "",
+  "license": "MIT",
+  "keywords": ["budget", "finance", "expense-tracker", "react", "dashboard"],
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
     "build": "vite build",

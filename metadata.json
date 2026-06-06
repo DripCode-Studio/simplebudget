@@ -1,5 +1,10 @@
 {
   "name": "SimpleBudget",
-  "description": "Plan your money visually. SimpleBudget is a modern budgeting tool featuring sleek aesthetics and financial analytics.",
+  "description": "Plan your money visually. A modern budgeting tool for tracking income, expenses, and savings with real-time charts and analytics.",
+  "version": "1.0.0",
+  "author": "",
+  "license": "MIT",
+  "repository": "",
+  "keywords": ["budget", "finance", "expense-tracker", "dashboard"],
   "requestFramePermissions": []
 }
